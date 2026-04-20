@@ -66,6 +66,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.55;
 .perf-row .ts{font-family:var(--m);font-size:12px;font-weight:600;text-align:right;}
 .perf-row.hd .tn,.perf-row.hd .ts{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);font-weight:700;}
 .perf-total{background:var(--bg-hover,#e5e7eb);border-top:2px solid var(--tx2);font-weight:700;margin-top:8px;}
+.perf-sub{display:none;}
 .cs{position:relative;display:inline-block;min-width:140px;}
 .cs-trigger{cursor:pointer;padding:6px 10px;border:1px solid var(--bd);border-radius:5px;background:transparent;color:var(--tx2);font-family:var(--f);font-size:11px;}
 .cs-trigger:hover{border-color:var(--ac);color:var(--ac);}
@@ -98,11 +99,12 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.55;
 .perf-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .perf-filter{width:100%;}
 .perf-filter:last-child{grid-column:1/-1;}
-.perf-row{grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;padding:6px 8px;font-size:12px;}
-.perf-row > *:nth-child(1),.perf-row > *:nth-child(2){display:none;}
-.perf-row.hd{font-size:10px;}
-.perf-total > *:nth-child(1){display:block;}
-.perf-total{grid-template-columns:auto 1fr 1fr 1fr 1fr;}
+.perf-row{grid-template-columns:minmax(80px,1.5fr) 40px 48px 40px 40px;gap:4px;padding:6px 8px;font-size:11px;}
+.perf-row > *:nth-child(2){display:none;}
+.perf-row > *:nth-child(1){white-space:normal;line-height:1.3;}
+.perf-row.hd{font-size:9px;}
+.perf-sub{display:inline;font-size:9px;color:var(--tx2);}
+.perf-total{grid-template-columns:minmax(80px,1.5fr) 40px 48px 40px 40px;}
 #l5B{overflow-x:auto;}
 .tbl{font-size:11px;}
 .cmp-row{grid-template-columns:70px 1fr 30px 4px 30px 1fr;font-size:10px;}
@@ -5103,9 +5105,10 @@ function renderPerfTable(){
       var ratingVal=(r.rating&&r.rating>0)?r.rating.toFixed(2):'—';
       var tLogo=TOURN_LOGO[r.tournament]?'<img src="'+TOURN_LOGO[r.tournament]+'" style="width:14px;height:14px;vertical-align:middle;margin-right:6px;" onerror="this.style.display=\'none\'">':'';
       var teamLogo=r.team_img?'<img src="'+r.team_img+'" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;" onerror="this.style.display=\'none\'">':'';
-      html+='<div class="perf-row"><div class="tn">'+tLogo+r.tournament+'</div><div class="tn">'+teamLogo+r.team+'</div><div class="ts">'+(r.apps||0)+'</div><div class="ts">'+ratingVal+'</div><div class="ts">'+(r.goals||0)+'</div><div class="ts">'+(r.assists||0)+'</div></div>';
+      var col1=tLogo+r.tournament+'<br><span class="perf-sub">'+teamLogo+r.team+'</span>';
+      html+='<div class="perf-row"><div class="tn" style="white-space:normal;line-height:1.3;">'+col1+'</div><div class="tn">'+teamLogo+r.team+'</div><div class="ts">'+(r.apps||0)+'</div><div class="ts">'+ratingVal+'</div><div class="ts">'+(r.goals||0)+'</div><div class="ts">'+(r.assists||0)+'</div></div>';
     });
-    html+='<div class="perf-row perf-total"><div class="tn">Total</div><div class="tn"></div><div class="ts">'+totalApps+'</div><div class="ts">'+avgRating+'</div><div class="ts">'+totalGoals+'</div><div class="ts">'+totalAssists+'</div></div>';
+    html+='<div class="perf-row perf-total"><div class="tn" style="white-space:normal;line-height:1.3;">Total</div><div class="tn"></div><div class="ts">'+totalApps+'</div><div class="ts">'+avgRating+'</div><div class="ts">'+totalGoals+'</div><div class="ts">'+totalAssists+'</div></div>';
     html+='</div>';
     container.innerHTML=html;
 
