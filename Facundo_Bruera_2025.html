@@ -79,7 +79,6 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.55;
 .sir .rk{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-family:var(--m);font-size:11px;font-weight:600;background:var(--cd2);color:var(--tx3);}
 .sir .sn{font-size:12.5px;font-weight:600;}.sir .sd{font-size:10.5px;color:var(--tx3);}
 .sir .ss{font-family:var(--m);font-size:13px;font-weight:600;}
-.ss-hi{color:#059669;}.ss-md{color:#34d399;}.ss-lo{color:#6ee7b7;}
 /* narr */
 .nt{font-size:13px;line-height:1.75;color:var(--tx2);column-count:2;column-gap:24px;}.nt p{margin-bottom:10px;}
 .scex{font-size:12px;color:var(--tx2);line-height:1.6;margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--ac);}
@@ -99,9 +98,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);line-height:1.55;
 .perf-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .perf-filter{width:100%;}
 .perf-filter:last-child{grid-column:1/-1;}
-.perf-row{grid-template-columns:minmax(50px,1.2fr) minmax(50px,1.2fr) 36px 44px 36px 36px;gap:4px;padding:5px 4px;font-size:10px;}
-.perf-row *{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.perf-row.hd{font-size:8px;text-transform:uppercase;letter-spacing:.04em;}
+.perf-row{grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;padding:6px 8px;font-size:12px;}
+.perf-row > *:nth-child(1),.perf-row > *:nth-child(2){display:none;}
+.perf-row.hd{font-size:10px;}
+.perf-total > *:nth-child(1){display:block;}
+.perf-total{grid-template-columns:auto 1fr 1fr 1fr 1fr;}
 #l5B{overflow-x:auto;}
 .tbl{font-size:11px;}
 .cmp-row{grid-template-columns:70px 1fr 30px 4px 30px 1fr;font-size:10px;}
@@ -4972,7 +4973,7 @@ mkR('r1',rDS);
 
 // ═══ SIMILAR + COMPARISON (unified) ═══
 var selI=null,selP=null;
-function simColor(pct){return pct>=90?'ss-hi':pct>=80?'ss-md':'ss-lo';}
+function simColor(pct){return pct>=80?'#2563eb':pct>=65?'#16a34a':pct>=50?'#d97706':pct>=35?'#ea580c':'#dc2626';}
 document.getElementById('siB').innerHTML=sims.map(function(p,i){
   var pct=Math.round(p.similarity*100);
   var ls='';
@@ -4987,7 +4988,7 @@ document.getElementById('siB').innerHTML=sims.map(function(p,i){
   }
   var pImg=p.img_player?'<img src="'+p.img_player+'" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display=\'none\'">':'';
   var tImg=p.img_team?'<img src="'+p.img_team+'" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" onerror="this.style.display=\'none\'">':'';
-  return '<div class="sir" data-i="'+i+'" onclick="pickSim('+i+')"><div class="rk">'+pImg+'</div><div><div class="sn">'+p.player_name+'</div><div class="sd">'+tImg+p.team_name+ls+'</div></div><div class="ss '+simColor(pct)+'">'+pct+'%</div></div>';
+  return '<div class="sir" data-i="'+i+'" onclick="pickSim('+i+')"><div class="rk">'+pImg+'</div><div><div class="sn">'+p.player_name+'</div><div class="sd">'+tImg+p.team_name+ls+'</div></div><div class="ss" style="color:'+simColor(pct)+'">'+pct+'%</div></div>';
 }).join('');
 function pickSim(i){
   selI=selI===i?null:i;selP=selI!==null?sims[selI]:null;
